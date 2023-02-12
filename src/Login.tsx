@@ -1,4 +1,5 @@
-import { Flex, Button, Center, Grid, Input, Text, Heading } from "@chakra-ui/react";
+import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
+import { Flex, Button, Center, Grid, Input, Text, Heading, Icon } from "@chakra-ui/react";
 import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -13,6 +14,7 @@ function Login() {
     const navigator = useNavigate()
     const [errMsg, setErrMsg] = useState("")
     const [isLoading, setIsLoading] = useState(false)
+    const [visible, setVisible] = useState(false)
 
     async function login() {
         if (!emailRef.current || !passwordRef.current) return
@@ -69,17 +71,25 @@ function Login() {
                     </Center>
                     <Center gap={"1rem"}>
                         <Text>Password:</Text>
-                        <Input ref={passwordRef} type={"password"} />
+                        <Input ref={passwordRef} type={visible ? "text" : "password"} />
+                        {visible ?
+                            <ViewIcon onClick={() => { setVisible(false) }}></ViewIcon> :
+                            <ViewOffIcon onClick={() => { setVisible(true) }}></ViewOffIcon>
+                        }
                     </Center>
                     <Button onClick={login} isDisabled={isLoading}>{isLoading ? "Loading..." : "Login"}</Button>
-                    <Button onClick={() => { setIsLogin(false) }}>Register?</Button>
-                    <Text>{errMsg}</Text>
+                    <Button onClick={() => {
+                        setIsLogin(false);
+                        setErrMsg("")
+                    }}>Register?</Button>
+
+                    <Text style={{ color: "red" }}>{errMsg}</Text>
                 </Grid>
                 : <Grid gap={"1rem"}>
                     <Heading textAlign={"center"}>Register:</Heading>
                     <Center gap={"1rem"}>
                         <Text>Username:</Text>
-                        <Input ref={nameRef} />
+                        <Input ref={nameRef} type={"text"} />
                     </Center>
                     <Center gap={"1rem"}>
                         <Text>Email:</Text>
@@ -87,11 +97,19 @@ function Login() {
                     </Center>
                     <Center gap={"1rem"}>
                         <Text>Password:</Text>
-                        <Input ref={passwordRef} type={"password"} />
+                        <Input ref={passwordRef} type={visible ? "text" : "password"} />
+                        {visible ?
+                            <ViewIcon onClick={() => { setVisible(false) }}></ViewIcon> :
+                            <ViewOffIcon onClick={() => { setVisible(true) }}></ViewOffIcon>
+                        }
                     </Center>
                     <Button onClick={register} isDisabled={isLoading}>{isLoading ? "Loading..." : "Register"}</Button>
-                    <Button onClick={() => { setIsLogin(true) }}>Login?</Button>
-                    <Text>{errMsg}</Text>
+                    <Button onClick={() => {
+                        setIsLogin(true);
+                        setErrMsg("")
+                    }}>Login?</Button>
+
+                    <Text style={{ color: "red" }}>{errMsg}</Text>
                 </Grid>
             }
         </Center>
