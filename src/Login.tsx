@@ -27,7 +27,9 @@ function Login() {
             })
             console.log("Loging in")
             const jwtToken = response.data.data.jwt_token
+            const userId = response.data.data.user_id
             localStorage.setItem("jwtToken", jwtToken)
+            localStorage.setItem("userId", userId)
             navigator("/")
             setErrMsg("")
             setIsLoading(false)
@@ -49,7 +51,9 @@ function Login() {
             })
             console.log(response)
             const jwtToken = response.data.data.jwt_token
+            const userId = response.data.data.user_id
             localStorage.setItem("jwtToken", jwtToken)
+            localStorage.setItem("userId", userId)
             navigator("/")
             setErrMsg("")
             setIsLoading(false)

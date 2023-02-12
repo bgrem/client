@@ -1,10 +1,10 @@
-import { Button, Center, Grid, Image, Input } from '@chakra-ui/react';
+import { Button, Center, Flex, Grid, Image, Input } from '@chakra-ui/react';
 import axios from 'axios';
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './App.css';
 import { baseUrl } from './constants';
-import { isLoggedIn } from './utils';
+import { isLoggedIn, logout } from './utils';
 
 function App() {
   const fileInput = useRef<HTMLInputElement | null>(null)
@@ -43,15 +43,21 @@ function App() {
   }, [])
 
   return (<>
-    <Center h={"100vh"}>
-      <Grid>
-        <Input type={"file"} hidden ref={fileInput} onChange={() => {
-          setSelectedFile((selectedFile) => fileInput.current?.value)
-        }} accept={"image/png, image/jpg, image/jpeg"}></Input>
-        <Button onClick={() => { fileInput.current?.click() }}>Upload File</Button>
-        {selectedFile}
-        <Button onClick={() => click()} isDisabled={isLoading || selectedFile === "" || !selectedFile}>{isLoading ? "Loading..." : "Remove background"}</Button>
-        Output: <Image src={imageUrl} />
+    <Center>
+      <Grid pt={"1rem"} gap={"10rem"}>
+        <Center gap={"1rem"}>
+          <Button onClick={() => { logout(); navigator("/login") }}>Logout</Button>
+          <Button onClick={() => { navigator("/dashboard") }}>Dashboard</Button>
+        </Center>
+        <Grid gap={"1rem"}>
+          <Input type={"file"} hidden ref={fileInput} onChange={() => {
+            setSelectedFile((selectedFile) => fileInput.current?.value)
+          }} accept={"image/png, image/jpg, image/jpeg"}></Input>
+          <Button onClick={() => { fileInput.current?.click() }}>Upload File</Button>
+          {selectedFile}
+          <Button onClick={() => click()} isDisabled={isLoading || selectedFile === "" || !selectedFile}>{isLoading ? "Loading..." : "Remove background"}</Button>
+          Output: <Image src={imageUrl} />
+        </Grid>
       </Grid>
     </Center>
   </>

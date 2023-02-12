@@ -12,7 +12,7 @@ export const isLoggedIn = async () => {
         return false
     }
 }
-export const isAdmin = async () => {
+export const checkIsAdmin = async () => {
     const jwtToken = localStorage.getItem("jwtToken")
     try {
         const response = await axios.get(baseUrl + "/auth/check_admin", { headers: { "Authorization": jwtToken } })
@@ -21,4 +21,9 @@ export const isAdmin = async () => {
     } catch {
         return false
     }
+}
+
+export const logout = () => {
+    localStorage.removeItem("jwtToken")
+    localStorage.removeItem("userId")
 }
